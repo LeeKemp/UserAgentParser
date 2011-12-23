@@ -1,56 +1,49 @@
 package com.kumkee.userAgent;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public enum Browser {
-	SAFARI("safari","version\\/([\\d\\w\\.\\-]+)"), 
-	IE("msie"), 
-	OPERA("opera"), 
-	CHROME("chrome","chrome\\/([\\d\\w\\.\\-]+)"), 
-	KONQUEROR("konqueror"), 
-	PS3("playstation 3","([\\d\\w\\.\\-]+)\\)\\s*$"),
-	PSP("playstation portable", "([\\d\\w\\.\\-]+)\\)?\\s*$"),
-	FIREFOX("firefox"), 
-	LOTUS("lotus.notes","Lotus-Notes\\/([\\w.]+)"), 
-	THUNDERBIRD("thunderbird"), 
-	NETSCAPE("netscape"), 
-	SEAMONKEY("seamonkey"), 
-	OUTLOOK("microsoft.outlook"), 
-	EVOLUTION("evolution"), 
-	IE_MOBILE("emobile|windows phone"), 
-	GABBLE("Gabble","Gabble\\/([\\d\\w\\.\\-]+)"), 
-	YAMMER_DESKTOP("AdobeAir","([\\d\\w\\.\\-]+)\\/Yammer"), 
-	APACHE_HTTP_CLIENT("Apache\\-HttpClient","Apache\\-HttpClient\\/([\\d\\w\\.\\-]+)"), 
-	YAMMER_MOBILE("Yammer[\\s]+([\\d\\w\\.\\-]+)","Yammer[\\s]+([\\d\\w\\.\\-]+)"), 
-	BLACKBERRY("BlackBerry","BlackBerry[\\d]+\\/([\\d\\w\\.\\-]+)"),
-	MSIE("msie"),
-	UNKNOWN(null)
-	;
+public class Browser {
+	public static final Pattern SafariPattern = Pattern.compile("safari", Pattern.CASE_INSENSITIVE); 
+	public static final Pattern OperaPattern = Pattern.compile("opera", Pattern.CASE_INSENSITIVE);
+	public static final Pattern ChromePattern = Pattern.compile("chrome", Pattern.CASE_INSENSITIVE); 
+	public static final Pattern KonquerorPattern = Pattern.compile("konqueror", Pattern.CASE_INSENSITIVE);
+	public static final Pattern PS3Pattern = Pattern.compile("playstation 3", Pattern.CASE_INSENSITIVE);
+	public static final Pattern PSPPattern = Pattern.compile("playstation portable", Pattern.CASE_INSENSITIVE);
+	public static final Pattern FirefoxPattern = Pattern.compile("firefox", Pattern.CASE_INSENSITIVE); 
+	public static final Pattern LotusPattern = Pattern.compile("lotus.notes", Pattern.CASE_INSENSITIVE); 
+	public static final Pattern ThumderbirdPattern = Pattern.compile("thunderbird", Pattern.CASE_INSENSITIVE); 
+	public static final Pattern NetscapePattern = Pattern.compile("netscape", Pattern.CASE_INSENSITIVE); 
+	public static final Pattern SeamonkeyPattern = Pattern.compile("seamonkey", Pattern.CASE_INSENSITIVE); 
+	public static final Pattern OutlookPattern = Pattern.compile("microsoft.outlook", Pattern.CASE_INSENSITIVE); 
+	public static final Pattern EvolutionPattern = Pattern.compile("evolution", Pattern.CASE_INSENSITIVE);
+	public static final Pattern MSIEMobilePattern = Pattern.compile("emobile|windows phone", Pattern.CASE_INSENSITIVE); 
+	public static final Pattern GabblePattern = Pattern.compile("Gabble", Pattern.CASE_INSENSITIVE); 
+	public static final Pattern YammerDesktopPattern = Pattern.compile("AdobeAir", Pattern.CASE_INSENSITIVE);
+	public static final Pattern ApacheHTTPClientPattern = Pattern.compile("Apache\\-HttpClient", Pattern.CASE_INSENSITIVE); 
+	public static final Pattern YammerMobilePattern = Pattern.compile("Yammer[\\s]+([\\d\\w\\.\\-]+)", Pattern.CASE_INSENSITIVE);
+	public static final Pattern BlackberryPattern = Pattern.compile("BlackBerry", Pattern.CASE_INSENSITIVE);
+	public static final Pattern MSIEPattern = Pattern.compile("msie", Pattern.CASE_INSENSITIVE);
 	
-	private Pattern browserBrowserRegExp;
-	private Pattern versionNumberRegExp; 
-	
-	private Browser(String browserNameRegExpStr) {
-		browserBrowserRegExp = browserNameRegExpStr != null? Pattern.compile(browserNameRegExpStr, Pattern.CASE_INSENSITIVE) : null;
-		versionNumberRegExp = Pattern.compile(this.name()+"[\\/]([\\d\\w\\.\\-]+)",Pattern.CASE_INSENSITIVE); // Default version number RegExp
-	}
-	
-	private Browser(String browserNameRegExpStr, String versionNumberRegExpStr) {
-		browserBrowserRegExp = browserNameRegExpStr != null? Pattern.compile(browserNameRegExpStr, Pattern.CASE_INSENSITIVE) : null;
-		versionNumberRegExp = versionNumberRegExpStr != null? Pattern.compile(versionNumberRegExpStr, Pattern.CASE_INSENSITIVE) : null;
-	}
-
-	public boolean matches(String userAgentString)
-	{
-		Matcher m = browserBrowserRegExp.matcher(userAgentString);
-		return m.find();
-	}
-	
-	public String getVersion(String userAgentString)
-	{
-		Matcher m = versionNumberRegExp.matcher(userAgentString);
-		return m.find() ? m.group(1) : null;
-	}
-	
+	public static final String Konqueror = "Konqueror";
+	public static final String Chrome = "Chrome";
+	public static final String Safari = "Safari";
+	public static final String Opera = "Opera";
+	public static final String PS3 = "PS3";
+	public static final String PSP = "PSP";
+	public static final String Firefox = "Firefox";
+	public static final String Lotus = "Lotus";
+	public static final String Netscape = "Netscape";
+	public static final String Seamonkey = "Seamonkey";
+	public static final String Thunderbird = "Thumderbird";
+	public static final String Outlook = "Outlook";
+	public static final String Evolution = "Evolution";
+	public static final String MSIEMobile = "IE Mobile";
+	public static final String MSIE = "MSIE";
+	public static final String Blackberry = "Blackberry";
+	public static final String Gabble = "Gabble";
+	public static final String YammerDesktop = "Yammer Desktop";
+	public static final String YammerMobile = "Yammer Mobile";
+	public static final String ApacheHTTPClient = "Apache HTTP Client";
+	public static final String Unknown = "Unknown";
 }
+
