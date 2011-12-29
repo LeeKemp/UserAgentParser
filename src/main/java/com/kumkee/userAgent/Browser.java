@@ -37,7 +37,7 @@ public class Browser {
 	public static final String Thunderbird = "Thumderbird";
 	public static final String Outlook = "Outlook";
 	public static final String Evolution = "Evolution";
-	public static final String MSIEMobile = "IE Mobile";
+	public static final String MSIEMobile = "IEMobile";
 	public static final String MSIE = "MSIE";
 	public static final String Blackberry = "Blackberry";
 	public static final String Gabble = "Gabble";

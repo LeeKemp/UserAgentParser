@@ -56,7 +56,15 @@ public class UserAgentParserTest {
 	{
 		String userAgentString = "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_4; en-US) AppleWebKit/534.3 (KHTML, like Gecko) Chrome/6.0.472.63 Safari/534.3";
 		String os = userAgentParser.OS(userAgentString);
-		assertEquals("OS X 10_6", os); // TODO: This is missing the last part of the version number
+		assertEquals("OS X 10.6", os); // TODO: This is missing the last part of the version number
+	}
+	
+	@Test
+	public void testOS_java()
+	{
+		String userAgentString = "Apache-HttpClient/4.1.2 (java 1.5)";
+		String os = userAgentParser.OS(userAgentString);
+		assertEquals("Java 1.5", os); // TODO: This is missing the last part of the version number
 	}
 	
 	//@Test

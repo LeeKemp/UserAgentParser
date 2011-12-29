@@ -14,5 +14,6 @@ public class BrowserVersion {
 	public static final Pattern YammerMobilePattern = Pattern.compile("Yammer[\\s]+([\\d\\w\\.\\-]+)", Pattern.CASE_INSENSITIVE); 
 	public static final Pattern BlackberryPattern = Pattern.compile("BlackBerry[\\d]+\\/([\\d\\w\\.\\-]+)", Pattern.CASE_INSENSITIVE); 
 	
-	public static final String Other = "[\\/]([\\d\\w\\.\\-]+)"; // this.name()+"[\\/]([\\d\\w\\.\\-]+)"
+	//public static final String Other = "[\\/ ]([\\d\\w\\.\\-]+)"; // this.name()+"[\\/]([\\d\\w\\.\\-]+)
+	public static final String Other = "[\\/ ]([\\d\\w\\.\\-]+)"; // this.name()+"[\\/]([\\d\\w\\.\\-]+)
 }

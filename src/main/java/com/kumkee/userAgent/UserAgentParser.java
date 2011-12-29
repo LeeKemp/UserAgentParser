@@ -1,5 +1,7 @@
 package com.kumkee.userAgent;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,13 +14,27 @@ public class UserAgentParser
 		userAgent.setBrowser(this.browser(userAgentString));
 		userAgent.setVersion(this.browserVersion(userAgentString, userAgent.getBrowser()));
 		userAgent.setEngine(this.engine(userAgentString));
-		//userAgent.setEngineVersion(engineVersion)
-		//userAgent.setMobile(mobile)
+		userAgent.setEngineVersion(engineVersion(userAgentString));
 		userAgent.setOs(this.OS(userAgentString));
 		userAgent.setPlatform(this.platform(userAgentString));
+		userAgent.setMobile(Platform.mobilePlatforms.contains(userAgent.getPlatform()) || userAgent.getBrowser().equalsIgnoreCase(Browser.PSP));
 		return userAgent;
 	}
 
+	public String engineVersion(String userAgentString)
+	{
+		String regexp = engine(userAgentString)+"[\\/\\- ]([\\d\\w\\.\\-]+)";
+		Pattern pattern = Pattern.compile(regexp, Pattern.CASE_INSENSITIVE); 
+		Matcher matcher = pattern.matcher(userAgentString);
+		
+		if(matcher.find())
+		{
+			return matcher.group(1);
+		}
+		
+		return null;
+	}
+	
 	public String engine(String userAgentString)
 	{
 		if(matches(Engine.WebkitPattern, userAgentString))
@@ -60,7 +76,7 @@ public class UserAgentParser
 		if(matches(Platform.WiiPattern, userAgentString))
 			return "Wii";
 		if(matches(Platform.PlaystationPattern, userAgentString))
-			return "Pltforma";
+			return "Playstation";
 		if(matches(Platform.iPadPattern, userAgentString))
 			return "iPad";
 		if(matches(Platform.iPodPattern, userAgentString))
@@ -163,6 +179,7 @@ public class UserAgentParser
 		}
 		else
 		{
+			// Append the Browsers name to the start of the generic "Other" regexp 
 			pattern = Pattern.compile(browser + BrowserVersion.Other, Pattern.CASE_INSENSITIVE); 
 		}
 		
@@ -181,7 +198,7 @@ public class UserAgentParser
 	public String OS(String userAgentString)
 	{
 		if(matches(OS.AdobeAirPattern, userAgentString))
-			return replaceText(OS.AdobeAirPattern, userAgentString, "Adobe Air $1");
+			return replaceTokens(OS.AdobeAirPattern, userAgentString, "Adobe Air #{$1}");
 		if(matches(OS.WindowsPhonePattern, userAgentString))
 			return "Windows Phone";
 		if(matches(OS.WindowsVistaPattern, userAgentString))
@@ -196,36 +213,35 @@ public class UserAgentParser
 			return "Windows 2000";
 		if(matches(OS.WindowsPattern, userAgentString))
 			return "Windows";
-		if(matches(OS.AdobeAirPattern, userAgentString))
-			return replaceText(OS.OSXPattern, userAgentString, "OS X $1.$2");
+		if(matches(OS.OSXPattern, userAgentString))
+			return replaceTokens(OS.OSXPattern, userAgentString, "OS X #{$1}.#{$2}");
 		if(matches(OS.LinuxPattern, userAgentString))
 			return "Linux";
 		if(matches(OS.WiiPattern, userAgentString))
 			return "Wii";
 		if(matches(OS.PS3Pattern, userAgentString))
 			return "Playstation 3";
-		if(matches(OS.WindowsPattern, userAgentString))
+		if(matches(OS.PSPPattern, userAgentString))
 			return "Playstation Portable";
 		if(matches(OS.YpodPattern, userAgentString))
-			return replaceText(OS.YpodPattern, userAgentString, "iPhone OS $1.$2");
+			return replaceTokens(OS.YpodPattern, userAgentString, "iPhone OS #{$1}.#{$2}");
 		if(matches(OS.YpadPattern, userAgentString))
-			return replaceText(OS.YpadPattern, userAgentString, "iPhone OS $1.$2");
+			return replaceTokens(OS.YpadPattern, userAgentString, "iPhone OS #{$1}.#{$2}");
 		if(matches(OS.YphonePattern, userAgentString))
-			return replaceText(OS.YphonePattern, userAgentString, "iPhone OS $1.$2");
+			return replaceTokens(OS.YphonePattern, userAgentString, "iPhone OS #{$1}.#{$2}");
 		if(matches(OS.IpadPattern, userAgentString))
-			return replaceText(OS.IpadPattern, userAgentString, "iPad OS $1.$2");
+			return replaceTokens(OS.IpadPattern, userAgentString, "iPad OS #{$1}.#{$2}");
 		if(matches(OS.IphonePattern, userAgentString))
-			return replaceText(OS.IphonePattern, userAgentString, "iPhone OS $1.$2");
+			return replaceTokens(OS.IphonePattern, userAgentString, "iPhone OS #{$1}.#{$2}");
 		if(matches(OS.DarwinPattern, userAgentString))
 			return "Darwin";
 		if(matches(OS.JavaPattern, userAgentString))
-			return replaceText(OS.JavaPattern, userAgentString, "Java $1");
+			return replaceTokens(OS.JavaPattern, userAgentString, "Java #{$1}");
 		if(matches(OS.SymbianPattern, userAgentString))
 			return "Symbian OS";
 		if(matches(OS.BlackBerryPattern, userAgentString))
 			return "BlackBerry OS";
-		if(matches(OS.OSXPattern, userAgentString))
-			return replaceText(OS.OSXPattern, userAgentString, "OS X $1.$2");
+		
 			//return "OSX";
 
 		return "Unknown";
@@ -236,29 +252,47 @@ public class UserAgentParser
 		return pattern.matcher(userAgentStr).find();
 	}
 
-	public String replaceText(Pattern pattern, String userAgentStr, String template)
+	/**
+	 * Replaces the tokens within the format String with the content of the groups found within the userAgentString. 
+	 * <p>
+	 * Tokens within the format string are formatted as #{$i} where i is the index of the group in the pattern. 
+	 * <p>
+	 * TODO: I would expect that there is an easier way to do this. 
+	 * 
+	 * @param pattern The regexp pattern to search for groups within the userAgentString
+	 * @param userAgentString
+	 * @param format The string to replace the tokens within
+	 * @return The format string with the tokens replaced with the groups found in the userAgentString
+	 */
+	public String replaceTokens(Pattern pattern, String userAgentString, String format)
 	{
-		// TODO: Fix this method, its not replacing the markers in the template with the results from the regexp
-		/*
-		System.out.println("Template: " + template);
-		System.out.println("UserAgent: " + userAgentStr);
-		System.out.println("Regexp: " + pattern.toString());
-*/
-		Matcher m = pattern.matcher(userAgentStr);
+		// System.out.println("UserAgent: " + userAgentString);
+		// System.out.println("Regexp: " + pattern.toString());
+		// System.out.println("Replacement: " + format);
+
+		Matcher m = pattern.matcher(userAgentString);	
+
+		// Move the group content into an array
+		List<String> groupContent = new ArrayList<String>();
+		// System.out.println("Group Count: "+m.groupCount());
+
 		m.find();
-		return m.group();
-		//System.out.println("Group: "+m.group());
-		/*
-		if(m.find())
+		for(int i=0; i<=m.groupCount(); i++)
 		{
-			for(int i = 0; i < m.groupCount(); i++)
-			{
-				System.out.println("Group: " + m.group(i));
-			}
+			String s = m.group(i);
+			// System.out.println("--"+s);
+			groupContent.add(s);
 		}
-		String s = m.replaceAll(template);
-		System.out.println("Result: " + s);
-		return s;
-		*/
+		
+		// Replace the tokens in the pattern 
+		for(int i=0; i<groupContent.size(); i++)
+		{
+			String token = "#\\{\\$"+i+"\\}";
+			// System.out.println("Replacing ["+token+"] with ["+groupContent.get(i)+"]");
+			format = format.replaceAll(token, groupContent.get(i));
+		}
+		
+		// System.out.println("Response: "+format);
+		return format;
 	}
 }

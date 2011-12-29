@@ -1,5 +1,8 @@
 package com.kumkee.userAgent;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class Platform {
@@ -32,6 +35,7 @@ public class Platform {
 	public static final String Java = "Java";
 	public static final String Unknown = "Unknown";
 	
-	public static final String[] mobilePlatforms = {Android, Blackberry, iPad, iPod, iPhone, Symbian, WindowsPhone};
+	public static final List<String> mobilePlatforms = Arrays.asList(Android, Blackberry, iPad, iPod, iPhone, Symbian, WindowsPhone);
+	
 	
 }

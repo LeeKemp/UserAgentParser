@@ -25,5 +25,5 @@ public class OS
 	public static final Pattern BlackBerryPattern  = Pattern.compile("BlackBerry", Pattern.CASE_INSENSITIVE);
 	public static final Pattern DarwinPattern  = Pattern.compile("Darwin\\/([\\d\\w\\.\\-]+)", Pattern.CASE_INSENSITIVE);
 	public static final Pattern AdobeAirPattern  = Pattern.compile("AdobeAir\\/([\\d\\w\\.\\-]+)", Pattern.CASE_INSENSITIVE);
-	public static final Pattern JavaPattern  = Pattern.compile("\\(Java[\\s]+([\\d\\w\\.\\-]+)\\)", Pattern.CASE_INSENSITIVE);	
+	public static final Pattern JavaPattern  = Pattern.compile("Java[\\s]+([\\d\\w\\.\\-]+)", Pattern.CASE_INSENSITIVE);	
 }
