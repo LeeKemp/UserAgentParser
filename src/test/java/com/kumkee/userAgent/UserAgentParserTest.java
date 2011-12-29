@@ -3,6 +3,7 @@ package com.kumkee.userAgent;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class UserAgentParserTest {
@@ -44,6 +45,14 @@ public class UserAgentParserTest {
 	}
 	
 	@Test
+	public void testBrowserVersion_konqueror() {
+		String userAgentString =   "Mozilla/5.0 (compatible; Konqueror/3.1-rc6; i686 Linux; 20021105)";
+		//String userAgentString = "Mozilla/5.0 (compatible; Konqueror/3.1-rc6; i686 Linux; 20021105)";
+		String verison = userAgentParser.browserVersion(userAgentString, Browser.Konqueror);
+		assertEquals("3.1-rc6", verison);
+	}
+	
+	@Test
 	public void testOS_windowsxp()
 	{
 		String userAgentString = "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.1.13) Gecko/20100914 Firefox/3.5.13 (.NET CLR 3.5.30729)";
@@ -82,4 +91,20 @@ public class UserAgentParserTest {
 		String os = userAgentParser.OS(userAgentString);
 		assertEquals("Darwin", os);
 	}
+	
+	@Test
+	public void testEngineVersion_KHTML() {
+		String userAgentString =   "Mozilla/5.0 (compatible; Konqueror/4.2; Linux; X11; x86_64) KHTML/4.2.4 (like Gecko) Fedora/4.2.4-2.fc11";
+		String verison = userAgentParser.engineVersion(userAgentString);
+		assertEquals("4.2.4", verison);
+	}
+	
+	@Test
+	@Ignore
+	public void testEngineVersion_Konqueror() {
+		String userAgentString =   "Mozilla/5.0 (compatible; Konqueror/3.1-rc6; i686 Linux; 20021105)";
+		String verison = userAgentParser.engineVersion(userAgentString);
+		assertEquals("3.1-rc6", verison);
+	}
+	
 }

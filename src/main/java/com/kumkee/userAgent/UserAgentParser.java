@@ -24,12 +24,16 @@ public class UserAgentParser
 	public String engineVersion(String userAgentString)
 	{
 		String regexp = engine(userAgentString)+"[\\/\\- ]([\\d\\w\\.\\-]+)";
+		// System.out.println("Engine Version: "+regexp);
 		Pattern pattern = Pattern.compile(regexp, Pattern.CASE_INSENSITIVE); 
 		Matcher matcher = pattern.matcher(userAgentString);
+		//System.out.println(matcher.groupCount());
 		
 		if(matcher.find())
 		{
-			return matcher.group(1);
+			String version = matcher.group(1);
+			// System.out.println("Verison: "+version);
+			return version;
 		}
 		
 		return null;
@@ -182,8 +186,7 @@ public class UserAgentParser
 			// Append the Browsers name to the start of the generic "Other" regexp 
 			pattern = Pattern.compile(browser + BrowserVersion.Other, Pattern.CASE_INSENSITIVE); 
 		}
-		
-		
+
 		Matcher matcher = pattern.matcher(userAgentString);
 		if(matcher.find())
 		{
