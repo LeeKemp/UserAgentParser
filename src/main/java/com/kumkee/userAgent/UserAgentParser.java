@@ -8,6 +8,14 @@ import java.util.regex.Pattern;
 public class UserAgentParser
 {
 
+    private static final UserAgentParser instance = new UserAgentParser();
+
+    public static UserAgentParser getInstance() {
+        return instance;
+    }
+
+    private UserAgentParser() {}
+
 	public UserAgent parse(String userAgentString)
 	{
 		UserAgent userAgent = new UserAgent();
