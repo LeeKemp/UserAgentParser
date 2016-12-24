@@ -1,9 +1,9 @@
 package com.kumkee.userAgent;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
 import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class UserAgentParserTestUAStrings {
 
@@ -11,7 +11,7 @@ public class UserAgentParserTestUAStrings {
 
 	@Before
 	public void setUp() {
-		userAgentParser = new UserAgentParser();
+		userAgentParser = UserAgentParser.getInstance();
 	}
 	
 	private void testUa(boolean mobile, String browser, String version,

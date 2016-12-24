@@ -1,10 +1,10 @@
 package com.kumkee.userAgent;
 
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 public class UserAgentParserTest {
 
@@ -13,7 +13,7 @@ public class UserAgentParserTest {
 	@Before
 	public void setup()
 	{
-		userAgentParser = new UserAgentParser();
+		userAgentParser = UserAgentParser.getInstance();
 	}
 	
 	@Test
